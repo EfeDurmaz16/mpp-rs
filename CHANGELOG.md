@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.11.0 (2026-06-10)
+
+### Minor Changes
+
+- Validate the credential `source` on the Tempo hash-credential verification path. The server now parses the `did:pkh:eip155` source before reserving the transaction hash, requires TIP-20 transfers to originate from the declared source address (falling back to the receipt sender when no source is provided), and rejects malformed or chain-mismatched sources with a uniform error. Adds `ChargeMethod::with_validate_sender` to authorize smart-account / relayer flows where the on-chain transfer sender differs from the declared source. (by @stevencartavia, [8880cf7](https://github.com/tempoxyz/mpp-rs/commit/8880cf7))
+- Added a structured `reason: Option<PaymentFailureReason>` field to `PaymentFailedContext`, marked the struct `#[non_exhaustive]`, and added `PaymentFailedContext::new()` and `with_reason()` constructors. Downstream callers should construct it via `new()` and destructure it with `..` so future field additions remain non-breaking. (by @stevencartavia, [8880cf7](https://github.com/tempoxyz/mpp-rs/commit/8880cf7))
+- Added TIP-1034 Tempo session client primitives for descriptor-backed channels, precompile ABI helpers, voucher signing, and fee-sponsored session opens. (by @stevencartavia, [8880cf7](https://github.com/tempoxyz/mpp-rs/commit/8880cf7))
+
+### Patch Changes
+
+- Add client-side Tempo chain pinning. `TempoProvider::with_expected_chain_id` rejects charge challenges whose `methodDetails.chainId` conflicts with the configured chain ID, and signs on the pinned chain when the challenge omits it — matching the mpp-go conformance ABI. (by @stevencartavia, [8880cf7](https://github.com/tempoxyz/mpp-rs/commit/8880cf7))
+- Align Tempo zero-amount proof shape with the wallet proof flow. (by @stevencartavia, [8880cf7](https://github.com/tempoxyz/mpp-rs/commit/8880cf7))
+
+## 0.2.0 (2026-06-10)
+
+## 0.3.0 (2026-06-10)
+
 ## 0.1.4 (2026-06-02)
 
 ## 0.10.4 (2026-06-02)
